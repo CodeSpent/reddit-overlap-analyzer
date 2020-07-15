@@ -9,6 +9,7 @@ from prettytable import PrettyTable
 import csv
 from tkinter import filedialog
 from tkinter import Tk
+from requests import HTTPError
 
 
 class Analyzer(object):
@@ -92,9 +93,12 @@ class Analyzer(object):
                     author=author
                 )
                 authors[author] = submissions
-            except ConnectionError:
-                time.sleep(54)
-                continue
+            except (ConnectionError, HTTPError) as e:
+                if e:
+                    time.sleep(60)
+                    continue
+                else:
+                    break
 
             for submission in submissions:
                 try:
