@@ -71,6 +71,7 @@ class Analyzer(object):
         submissions = self.pushshift_client.get_reddit_submissions(
             subreddit=subreddit, start=start, end=end, limit=submissions
         )
+
         unique_authors = []
         [
             unique_authors.append(x["author"])
@@ -95,7 +96,7 @@ class Analyzer(object):
                 authors[author] = submissions
             except (ConnectionError, requests.HTTPError) as e:
                 if e:
-                    time.sleep(54)
+                    time.sleep(60)
                     continue
                 else:
                     break
