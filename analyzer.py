@@ -9,6 +9,7 @@ from prettytable import PrettyTable
 import csv
 from tkinter import filedialog
 from tkinter import Tk
+import requests
 
 
 class Analyzer(object):
@@ -70,6 +71,7 @@ class Analyzer(object):
         submissions = self.pushshift_client.get_reddit_submissions(
             subreddit=subreddit, start=start, end=end, limit=submissions
         )
+
         unique_authors = []
         [
             unique_authors.append(x["author"])
@@ -92,9 +94,12 @@ class Analyzer(object):
                     author=author
                 )
                 authors[author] = submissions
-            except ConnectionError:
-                time.sleep(54)
-                continue
+            except (ConnectionError, requests.HTTPError) as e:
+                if e:
+                    time.sleep(60)
+                    continue
+                else:
+                    break
 
             for submission in submissions:
                 try:
@@ -117,7 +122,6 @@ class Analyzer(object):
                     subreddits[submission["subreddit"]]["authors"].append(
                         author
                     )
-            # time.sleep(1)
 
         if subreddit in subreddits:
             subreddits.pop(subreddit, None)
@@ -162,8 +166,6 @@ class Analyzer(object):
                         len(subreddits[collected_subreddit]["authors"]),
                     ]
                 )
-        else:
-            return "Unsupported output type"
 
             if sort_by == "users":
                 results_table.sortby = "Unique Users"
@@ -183,6 +185,8 @@ class Analyzer(object):
                     end=top,
                 )
             )
+        else:
+            return "Unsupported output type"
 
 
 if __name__ == "__main__":
