@@ -166,8 +166,6 @@ class Analyzer(object):
                         len(subreddits[collected_subreddit]["authors"]),
                     ]
                 )
-        else:
-            return "Unsupported output type"
 
             if sort_by == "users":
                 results_table.sortby = "Unique Users"
@@ -187,6 +185,8 @@ class Analyzer(object):
                     end=top,
                 )
             )
+        else:
+            return "Unsupported output type"
 
 
 if __name__ == "__main__":
