@@ -4,7 +4,7 @@ block_cipher = None
 
 
 a = Analysis(['analyzer.py'],
-             pathex=['C:\\Users\\blitz\\OneDrive\\Documents\\Projects\\FinalRendition\\reddit-overlap-analyzer'],
+             pathex=[],
              binaries=[],
              datas=[],
              hiddenimports=[],
