@@ -3,3 +3,5 @@
 .venv/
 .vscode/
 local.py
+dist/
+build/
